@@ -10,28 +10,28 @@
 # again returns m2 from the cached value, along with a 'getting cache' message
 # Setting a new matrix using aMatrix$set(m2) will calculate its inverse, m1
 
-makeMatrix <- function(x = matrix()) {
-  inv <- NULL
-  set <- function(y) {
-    x <<- y
+makeMatrix <- function(x = matrix()) {   # initialize x as empty matrix
+  inv <- NULL                     # initialze inv of x as null
+  set <- function(y) {            # assign values to x, inv of parent environment
+    x <<- y 
     inv<<- NULL
   }
-  get <- function() x
-  setInverse <- function(i) inv <<- i
-  getInverse <- function() inv
-  list(set = set, get = get,
-       setInverse = setInverse,
-       getInverse = getInverse)
+  get <- function() x                   # returns x when called with aMatrix$get
+  setInverse <- function(i) inv <<- i   # assigns
+  getInverse <- function() inv          # returns inv w/ aMatrix$getInverse()
+  list(set = set, get = get,            # this list() allows access to x,inv,
+       setInverse = setInverse,         # and the 4 getter/setter functions
+       getInverse = getInverse)         # named elements allow use of $ notation
 }
 
-cacheSolve <- function(x, ...) {
-  inv <- x$getInverse()
-  if(!is.null(inv)) {
-    message("getting cached data")
-    return(inv)
+cacheSolve <- function(x, ...) {        # the input x must be of type makeMatrix
+  inv <- x$getInverse()                 # first get cached inv matrix if avail
+  if(!is.null(inv)) {                   # cached inv is avail if inv is not null
+    message("getting cached data")      # notice that no calculation is needed
+    return(inv)                         # cached inv being returned
   }
-  data <- x$get()
-  inv <- solve(data, ...)
-  x$setInverse(inv)
-  inv
+  data <- x$get()                       # no cached inv so get matrix data
+  inv <- solve(data, ...)               # calculate matrix inverse
+  x$setInverse(inv)                     # update cached value of inv
+  inv                                   # return calculated inv
 }
