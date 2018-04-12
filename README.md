@@ -1,3 +1,52 @@
+### makeMatrix - a lexical scoping programming assignment
+The point of this assignment is to demo functions which cache a matrix inverse by taking advantage of lexical scoping. The makeMatrix() func returns an object of type list() that allows access to other objects (x,m) thru getters and setters. When cacheSolve() is sent objects of type makeMatrix(), it calculates & stores the matrix inverse.
+
+### Testing the code
+To see how the code works source the file and type the following in the R console:
+m1<-matrix(c(1/2, -1/4, -1, 3/4), nrow = 2, ncol = 2)
+m1 # initial matrix to be inverted
+      [,1]  [,2]
+[1,]  0.50 -1.00
+[2,] -0.25  0.75
+aMatrix<-makeMatrix(m1)
+m2<-cacheSolve(aMatrix)
+m2 # demonstrate the inverse was made
+     [,1] [,2]
+[1,]    6    8
+[2,]    2    4
+cacheSolve(aMatrix) # demo cache func
+getting cached data
+     [,1] [,2]
+[1,]    6    8
+[2,]    2    4
+aMatrix$set(m2) # set a new matrix in
+m3<-cacheSolve(aMatrix)
+m3 # demonstrate the inverse was made
+      [,1]  [,2]
+[1,]  0.50 -1.00
+[2,] -0.25  0.75
+
+### Details
+The makeMatrix() func makes an object to store a matrix and its inverse using code such as: aMatrix<-makeMatrix(m1), where m1<-matrix(c(1/2, -1/4, -1, 3/4), nrow = 2, ncol = 2)
+This call sets the value of x & inv and defines 4 functions. However, the functions are not executed by this call. Executing a function happens with a call like myVector$set(n1). Notice that this call also sets values of x & inv
+
+2   assign NULL to inv obj and then define 4 functions
+3   set function defines a new matrix and clears the cache to force a new inverse calc
+4,5 set(y) assigns values to x & inv of the parent environment (ie, makeMatrix())
+7,9 return x or inv, when called with code such as aMatrix$get(), aMatrix$getInverse()
+8   assigns x to inv of the parent environment (ie, makeMatrix())
+10  assign each func as an element of a list, which as the last item, is returned. Naming
+    list elements allows use of the $ form of the extractor operator so that
+    aMatrix$get can be used instead of aMatrix[[2]]
+
+When the cacheSolve() func is sent an object like aMatrix, it calculates the inverse or, if it has already been calculated, retrieves the cached value
+12  get the inverse matrix, inv
+13  if inv is not null, return cached data
+17  if inv is null, get the data
+18  calculate a new inverse ← This is the only place a matrix inverse is calculated
+19  set the inverse
+20  return the inverse
+
 ### Introduction
 
 This second programming assignment will require you to write an R
