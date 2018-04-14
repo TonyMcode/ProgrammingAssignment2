@@ -3,7 +3,7 @@ This is a lexical scoping programming assignment from Week 3 of the JHU R Progra
 
 ### Testing the code
 To see how the code works source the file and type the following in the R console:
-<!-- -->
+```
 m1<-matrix(c(1/2, -1/4, -1, 3/4), nrow = 2, ncol = 2)
 m1 # initial matrix to be inverted
       [,1]  [,2]
@@ -26,6 +26,7 @@ m3 # demonstrate the inverse was made
       [,1]  [,2]
 [1,]  0.50 -1.00
 [2,] -0.25  0.75
+```
 
 ### Details
 The makeMatrix() func makes an object to store a matrix and its inverse using code such as: aMatrix<-makeMatrix(m1), where m1<-matrix(c(1/2, -1/4, -1, 3/4), nrow = 2, ncol = 2)
